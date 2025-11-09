@@ -96,18 +96,15 @@ export const movePiece = async (page: Page, from: GamePosition, to: GamePosition
   await Locators.clickableSquare(page, to).click()
 }
 
-const isValidJumpMove = (move: MoveData): move is Required<MoveData> & { isJump: true } => {
-  return move.isJump === true && move.capturedPiece !== undefined
-}
-
-export const performJump = async (page: Page, jumpMove: MoveData): Promise<void> => {
-  if (!isValidJumpMove(jumpMove)) {
+const performJump = async (page: Page, jumpMove: MoveData): Promise<void> => {
+  if (!jumpMove.isJump || !jumpMove.capturedPiece) {
     throw new Error('Invalid jump move data: isJump must be true and capturedPiece must be defined')
   }
 
-  await expect(Locators.piece(page, jumpMove.capturedPiece, PIECE_COLORS.BLUE)).toBeVisible()
+  const capturedPiece = jumpMove.capturedPiece
+  await expect(Locators.piece(page, capturedPiece, PIECE_COLORS.BLUE)).toBeVisible()
   await movePiece(page, jumpMove.from, jumpMove.to)
-  await expect(Locators.emptySquare(page, jumpMove.capturedPiece)).toBeVisible()
+  await expect(Locators.emptySquare(page, capturedPiece)).toBeVisible()
 }
 
 export const checkGameOver = async (page: Page, timeout = DEFAULT_GAME_OVER_TIMEOUT): Promise<GameStatus> => {
@@ -184,12 +181,6 @@ export const verifyPieceCounts = async (
   expect(blueCount).toBe(expectedBlue)
 }
 
-const mapColorToStatus = (color?: PieceColor): GameStatus => {
-  if (color === PIECE_COLORS.ORANGE) return GAME_STATUS.ORANGE_WINS
-  if (color === PIECE_COLORS.BLUE) return GAME_STATUS.BLUE_WINS
-  return GAME_STATUS.IN_PROGRESS
-}
-
 const verifyWinnerPieceCount = async (page: Page, winner: PieceColor): Promise<void> => {
   const loserColor = winner === PIECE_COLORS.ORANGE ? PIECE_COLORS.BLUE : PIECE_COLORS.ORANGE
   const loserCount = await countPieces(page, loserColor)
@@ -198,19 +189,17 @@ const verifyWinnerPieceCount = async (page: Page, winner: PieceColor): Promise<v
 
 export const verifyGameEndResult = async (
   page: Page,
-  expectedResult?: PieceColor
+  expectedResult: GameStatus
 ): Promise<void> => {
   const gameResult = await checkGameOver(page)
-  const expectedStatus = mapColorToStatus(expectedResult)
 
-  expect(gameResult).toBe(expectedStatus)
+  expect(gameResult).toBe(expectedResult)
 
-  if (expectedResult && expectedResult !== PIECE_COLORS.ORANGE && expectedResult !== PIECE_COLORS.BLUE) {
-    return
+  if (expectedResult === GAME_STATUS.ORANGE_WINS) {
+    await verifyWinnerPieceCount(page, PIECE_COLORS.ORANGE)
   }
-
-  if (expectedResult) {
-    await verifyWinnerPieceCount(page, expectedResult)
+  else if (expectedResult === GAME_STATUS.BLUE_WINS) {
+    await verifyWinnerPieceCount(page, PIECE_COLORS.BLUE)
   }
 }
 

@@ -1,5 +1,5 @@
 import type { BoardTestScenario } from '../../shared/types'
-import { PIECE_COLORS } from '../../shared/types'
+import { PIECE_COLORS, GAME_STATUS } from '../../shared/types'
 import { commonBoardStates } from '../../board/data/board.data'
 
 export const gameplayScenarios: Record<string, BoardTestScenario> = {
@@ -10,12 +10,12 @@ export const gameplayScenarios: Record<string, BoardTestScenario> = {
     moves: [
       {
         from: { x: 0, y: 2 },
-        to: { x: 1, y: 3 },
-        isJump: false
+        to: { x: 1, y: 3 }
       }
     ],
     expectedOrangePieces: 12,
-    expectedBluePieces: 12
+    expectedBluePieces: 12,
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
 
   gameStateConsistency: {
@@ -25,12 +25,12 @@ export const gameplayScenarios: Record<string, BoardTestScenario> = {
     moves: [
       {
         from: { x: 0, y: 2 },
-        to: { x: 1, y: 3 },
-        isJump: false
+        to: { x: 1, y: 3 }
       }
     ],
     expectedOrangePieces: 12,
-    expectedBluePieces: 12
+    expectedBluePieces: 12,
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
 
   kingPromotion: {
@@ -40,12 +40,12 @@ export const gameplayScenarios: Record<string, BoardTestScenario> = {
     moves: [
       {
         from: { x: 2, y: 6 },
-        to: { x: 1, y: 7 },
-        isJump: false
+        to: { x: 1, y: 7 }
       }
     ],
     expectedOrangePieces: 2,
-    expectedBluePieces: 1
+    expectedBluePieces: 1,
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
 
   jumpCapture: {
@@ -61,7 +61,8 @@ export const gameplayScenarios: Record<string, BoardTestScenario> = {
       }
     ],
     expectedOrangePieces: 2,
-    expectedBluePieces: 2
+    expectedBluePieces: 2,
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
 
   multipleMoves: {
@@ -83,11 +84,11 @@ export const gameplayScenarios: Record<string, BoardTestScenario> = {
     moves: [
       {
         from: { x: 0, y: 2 },
-        to: { x: 1, y: 3 },
-        isJump: false
+        to: { x: 1, y: 3 }
       }
     ],
     expectedOrangePieces: 3,
-    expectedBluePieces: 2
+    expectedBluePieces: 2,
+    expectedResult: GAME_STATUS.IN_PROGRESS
   }
 }

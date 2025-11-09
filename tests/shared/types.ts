@@ -69,11 +69,10 @@ export interface BoardTestScenario {
   name: string
   description?: string
   boardState: GameState
-  moves?: MoveData[]
-  expectedStateAfterMove?: GameState
+  moves: MoveData[]
   expectedOrangePieces: number
   expectedBluePieces: number
-  expectedResult?: PieceColor
+  expectedResult: GameStatus
 }
 
 export interface VisualTestScenario {
@@ -89,19 +88,6 @@ export type CheckersOptions = {
 
 export type CheckersFixtures = {
   checkersPage: Page
-}
-
-export interface ScenarioTestData {
-  firstMove: MoveData
-  secondMove: MoveData
-  firstMoveFrom: GamePosition
-  firstMoveTo: GamePosition
-  secondMoveFrom: GamePosition
-  secondMoveTo: GamePosition
-  firstBluePosition: GamePosition
-  secondOrangePosition: GamePosition
-  boardState: BoardTestScenario['boardState']
-  allMoves: MoveData[]
 }
 
 export const DIRECTION_OFFSETS = {

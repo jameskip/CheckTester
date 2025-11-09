@@ -23,7 +23,7 @@ export const piece = (
   return page.locator(`img[name="${SQUARE_NAME_PREFIX}${coordinates.x}${coordinates.y}"][src*="${srcPattern}"]`)
 }
 
-export const square = (
+const square = (
   page: Page,
   coordinates: GamePosition,
   state: SquareState

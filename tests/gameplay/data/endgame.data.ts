@@ -1,5 +1,5 @@
 import type { BoardTestScenario } from '../../shared/types'
-import { PIECE_COLORS } from '../../shared/types'
+import { PIECE_COLORS, GAME_STATUS } from '../../shared/types'
 
 export const endgameScenarios: Record<string, BoardTestScenario> = {
   kingVsKing: {
@@ -19,7 +19,8 @@ export const endgameScenarios: Record<string, BoardTestScenario> = {
     },
     moves: [
       { from: { x: 0, y: 2 }, to: { x: 1, y: 1 } }
-    ]
+    ],
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
   kingHunt: {
     name: 'TC4.2: King Hunt',
@@ -40,7 +41,7 @@ export const endgameScenarios: Record<string, BoardTestScenario> = {
     moves: [
       { from: { x: 3, y: 5 }, to: { x: 5, y: 7 }, isJump: true, capturedPiece: { x: 4, y: 6 } }
     ],
-    expectedResult: PIECE_COLORS.ORANGE
+    expectedResult: GAME_STATUS.ORANGE_WINS
   },
   finalPieces: {
     name: 'TC4.3: Final Pieces',
@@ -58,7 +59,9 @@ export const endgameScenarios: Record<string, BoardTestScenario> = {
       ],
       currentTurn: PIECE_COLORS.ORANGE,
       gameOver: false
-    }
+    },
+    moves: [],
+    expectedResult: GAME_STATUS.IN_PROGRESS
   },
   orangeWin: {
     name: 'TC4.4: Orange Victory',
@@ -78,7 +81,7 @@ export const endgameScenarios: Record<string, BoardTestScenario> = {
     moves: [
       { from: { x: 3, y: 3 }, to: { x: 5, y: 5 }, isJump: true, capturedPiece: { x: 4, y: 4 } }
     ],
-    expectedResult: PIECE_COLORS.ORANGE
+    expectedResult: GAME_STATUS.ORANGE_WINS
   },
   blueWin: {
     name: 'TC4.5: Blue Victory',
@@ -98,6 +101,6 @@ export const endgameScenarios: Record<string, BoardTestScenario> = {
     moves: [
       { from: { x: 4, y: 4 }, to: { x: 3, y: 5 } }
     ],
-    expectedResult: PIECE_COLORS.BLUE
+    expectedResult: GAME_STATUS.BLUE_WINS
   }
 }
