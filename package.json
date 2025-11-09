@@ -1,0 +1,25 @@
+{
+  "name": "checktester",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Playwright test suite for Checkers Game application",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@stylistic/eslint-plugin": "^5.5.0",
+    "@types/node": "^24.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "eslint": "^9.39.1",
+    "eslint-plugin-playwright": "^2.3.0",
+    "typescript": "^5.9.3"
+  }
+}
