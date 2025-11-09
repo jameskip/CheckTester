@@ -6,10 +6,10 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
-  workers: isCI ? 1 : undefined,
+  retries: isCI ? 1 : 0,
+  workers: isCI ? 4 : undefined,
   reporter: isCI 
-    ? [['dot'], ['github'], ['html', { outputFolder: 'playwright-report', open: 'never' }]] 
+    ? [['dot'], ['github'], ['html', { open: 'never' }]] 
     : [['list'], ['html', { open: 'on-failure' }]],
   use: {
     baseURL: 'http://localhost:3000',
