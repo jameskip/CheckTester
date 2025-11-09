@@ -377,7 +377,7 @@ npx playwright show-report
 
 ### GitHub Actions
 
-Create `.github/workflows/playwright.yml`:
+Create `.github/workflows/test.yml`:
 
 ```yaml
 name: Playwright Tests
@@ -386,20 +386,28 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript type check
+        run: npx tsc --noEmit
 
       - name: Install Playwright Chromium Browser
         run: npx playwright install chromium --with-deps
@@ -408,7 +416,7 @@ jobs:
         run: npm test
 
       - name: Upload test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-report
@@ -416,7 +424,7 @@ jobs:
           retention-days: 30
 
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: test-results
