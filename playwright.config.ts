@@ -9,7 +9,7 @@ export default defineConfig({
   retries: isCI ? 2 : 0,
   workers: isCI ? 1 : undefined,
   reporter: isCI 
-    ? [['dot'], ['github'], ['html', { open: 'never' }]] 
+    ? [['dot'], ['github'], ['html', { outputFolder: 'playwright-report', open: 'never' }]] 
     : [['list'], ['html', { open: 'on-failure' }]],
   use: {
     baseURL: 'http://localhost:3000',
