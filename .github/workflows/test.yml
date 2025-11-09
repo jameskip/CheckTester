@@ -10,6 +10,13 @@ jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
 
@@ -48,3 +55,18 @@ jobs:
           name: test-results
           path: test-results/
           retention-days: 7
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        if: always() && github.ref == 'refs/heads/main'
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v4
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          path: playwright-report/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        if: always() && github.ref == 'refs/heads/main'
