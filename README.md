@@ -160,23 +160,43 @@ npx playwright test --update-snapshots
 ```
 CheckTester/
 ├── tests/                          # Test suites
+│   ├── fixtures.ts                 # Custom test fixtures (board state injection)
 │   ├── board/                      # Board interaction tests
-│   │   ├── basic-movement.spec.ts  # Core movement mechanics (9 tests)
-│   │   ├── board-configuration-examples.spec.ts  # Custom state tests (3 tests)
-│   │   ├── board.actions.ts        # High-level game actions
-│   │   ├── board.data.ts           # Board states and constants
-│   │   └── board.locators.ts       # Element selectors
+│   │   ├── actions/                # Board action handlers
+│   │   │   └── board.actions.ts    # High-level game actions
+│   │   ├── data/                   # Board test data
+│   │   │   └── board.data.ts       # Board states and constants
+│   │   ├── locators/               # Element selectors
+│   │   │   └── board.locators.ts   # Element selectors
+│   │   └── specs/                  # Board test specifications
+│   │       ├── basic-movement.spec.ts      # Core movement mechanics (9 tests)
+│   │       └── board-configuration.spec.ts # Custom state tests (3 tests)
 │   ├── gameplay/                   # Game scenarios
-│   │   ├── gameplay-scenarios.spec.ts  # Common scenarios (5 tests)
-│   │   ├── gameplay.data.ts        # Gameplay test data
-│   │   ├── endgame-scenarios.spec.ts   # Win/lose conditions (5 tests)
-│   │   └── endgame.data.ts         # Endgame configurations
-│   ├── visual/                     # Visual regression
-│   │   ├── visual-snapshot.spec.ts # Screenshot tests (3 tests)
-│   │   └── visual.data.ts          # Visual test states
-│   └── fixtures.ts                 # Custom test fixtures (board state injection)
+│   │   ├── data/                   # Gameplay test data
+│   │   │   ├── endgame.data.ts     # Endgame configurations
+│   │   │   └── gameplay.data.ts    # Gameplay test data
+│   │   └── specs/                  # Gameplay test specifications
+│   │       ├── endgame-scenarios.spec.ts   # Win/lose conditions (5 tests)
+│   │       └── gameplay-scenarios.spec.ts  # Common scenarios (5 tests)
+│   ├── shared/                     # Shared utilities and types
+│   │   ├── constants.ts            # Test constants
+│   │   ├── scenario-runner.ts      # Scenario execution utilities
+│   │   ├── types.ts                # TypeScript type definitions
+│   │   └── utils.ts                # Utility functions
+│   └── visual/                     # Visual regression
+│       ├── data/                   # Visual test data
+│       │   └── visual.data.ts      # Visual test states
+│       └── specs/                  # Visual test specifications
+│           ├── visual-snapshot.spec.ts     # Screenshot tests (3 tests)
+│           └── visual-snapshot.spec.ts-snapshots/  # Generated snapshots
 ├── public/                         # Checkers game application
-│   └── [game HTML/CSS/JS files]
+│   ├── checkers.html               # Game HTML interface
+│   ├── default.css                 # Game stylesheets
+│   └── default.js                  # Game JavaScript logic
+├── playwright-report/              # Generated test reports
+│   └── index.html                  # HTML test report
+├── test-results/                   # Test execution artifacts
+├── eslint.config.js                # ESLint configuration
 ├── playwright.config.ts            # Playwright configuration
 ├── tsconfig.json                   # TypeScript configuration
 ├── package.json                    # Dependencies and scripts
@@ -205,8 +225,8 @@ Assertions & Reports
 | Component | File | Purpose |
 |-----------|------|---------|
 | **Fixtures** | [fixtures.ts](tests/fixtures.ts) | Custom board state injection, page setup/teardown |
-| **Locators** | [board.locators.ts](tests/board/board.locators.ts) | Centralized element selectors |
-| **Actions** | [board.actions.ts](tests/board/board.actions.ts) | High-level game interaction methods |
+| **Locators** | [board.locators.ts](tests/board/locators/board.locators.ts) | Centralized element selectors |
+| **Actions** | [board.actions.ts](tests/board/actions/board.actions.ts) | High-level game interaction methods |
 | **Data** | `*.data.ts` | Board configurations, expected states, test scenarios |
 
 ### Custom Board State Injection
