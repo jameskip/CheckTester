@@ -13,12 +13,11 @@ export const runScenarioTests = (
         test.use({ boardState: scenario.boardState })
 
         test(scenario.description || scenario.name, async ({ checkersPage: page }) => {
-          await Actions.verifyPieceCounts(page, scenario.expectedOrangePieces, scenario.expectedBluePieces)
-
           for (const move of scenario.moves) {
             await Actions.performPlayerTurn(page, move)
           }
 
+          await Actions.verifyBoardState(page, scenario.expectedBoardState)
           await Actions.verifyGameEndResult(page, scenario.expectedResult)
         })
       })

@@ -56,6 +56,7 @@ export interface MoveData {
   to: GamePosition
   isJump?: boolean
   capturedPiece?: GamePosition
+  playerColor?: PieceColor
 }
 
 export interface GameState {
@@ -70,8 +71,7 @@ export interface BoardTestScenario {
   description?: string
   boardState: GameState
   moves: MoveData[]
-  expectedOrangePieces: number
-  expectedBluePieces: number
+  expectedBoardState: GameState
   expectedResult: GameStatus
 }
 

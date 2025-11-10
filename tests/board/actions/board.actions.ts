@@ -85,14 +85,14 @@ export const navigateToGame = async (page: Page, gameUrl: string = '/checkers'):
   await page.goto(gameUrl)
 }
 
-export const selectPiece = async (page: Page, coordinates: GamePosition): Promise<void> => {
-  await expect(Locators.piece(page, coordinates, PIECE_COLORS.ORANGE)).toBeVisible()
+export const selectPiece = async (page: Page, coordinates: GamePosition, color: PieceColor = PIECE_COLORS.ORANGE): Promise<void> => {
+  await expect(Locators.piece(page, coordinates, color)).toBeVisible()
   await Locators.clickableSquare(page, coordinates).click()
   await expect(Locators.selectedPiece(page, coordinates)).toBeVisible()
 }
 
-export const movePiece = async (page: Page, from: GamePosition, to: GamePosition): Promise<void> => {
-  await selectPiece(page, from)
+export const movePiece = async (page: Page, from: GamePosition, to: GamePosition, color: PieceColor = PIECE_COLORS.ORANGE): Promise<void> => {
+  await selectPiece(page, from, color)
   await Locators.clickableSquare(page, to).click()
 }
 
@@ -101,9 +101,11 @@ const performJump = async (page: Page, jumpMove: MoveData): Promise<void> => {
     throw new Error('Invalid jump move data: isJump must be true and capturedPiece must be defined')
   }
 
+  const playerColor = jumpMove.playerColor || PIECE_COLORS.ORANGE
+  const capturedColor = playerColor === PIECE_COLORS.ORANGE ? PIECE_COLORS.BLUE : PIECE_COLORS.ORANGE
   const capturedPiece = jumpMove.capturedPiece
-  await expect(Locators.piece(page, capturedPiece, PIECE_COLORS.BLUE)).toBeVisible()
-  await movePiece(page, jumpMove.from, jumpMove.to)
+  await expect(Locators.piece(page, capturedPiece, capturedColor)).toBeVisible()
+  await movePiece(page, jumpMove.from, jumpMove.to, playerColor)
   await expect(Locators.emptySquare(page, capturedPiece)).toBeVisible()
 }
 
@@ -160,7 +162,8 @@ export const performPlayerTurn = async (page: Page, move: MoveData): Promise<voi
     await performJump(page, move)
   }
   else {
-    await movePiece(page, move.from, move.to)
+    const playerColor = move.playerColor || PIECE_COLORS.ORANGE
+    await movePiece(page, move.from, move.to, playerColor)
   }
 }
 

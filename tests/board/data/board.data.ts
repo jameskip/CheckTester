@@ -1,88 +1,77 @@
-import type { GameState, BoardTestScenario, MoveData } from '../../shared/types'
+import type { GameState, BoardTestScenario } from '../../shared/types'
 import { PIECE_COLORS, GAME_STATUS } from '../../shared/types'
 
-const initialGameState: GameState = {
-  orangePieces: [
-    { position: { x: 0, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 2, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 4, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 6, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 1, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 3, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 5, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 7, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 0, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 2, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 4, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 6, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
-  ],
-  bluePieces: [
-    { position: { x: 1, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 3, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 5, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 7, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 0, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 2, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 4, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 6, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 1, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 3, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 5, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 7, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE }
-  ],
-  currentTurn: PIECE_COLORS.ORANGE,
-  gameOver: false
-}
-
-const kingPromotionBoardState: GameState = {
-  orangePieces: [
-    { position: { x: 2, y: 6 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 0, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE }
-  ],
-  bluePieces: [
-    { position: { x: 7, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE }
-  ],
-  currentTurn: PIECE_COLORS.ORANGE,
-  gameOver: false
-}
-
-const endgameBoardState: GameState = {
-  orangePieces: [
-    { position: { x: 0, y: 0 }, isKing: true, color: PIECE_COLORS.ORANGE },
-    { position: { x: 2, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
-  ],
-  bluePieces: [
-    { position: { x: 7, y: 7 }, isKing: true, color: PIECE_COLORS.BLUE }
-  ],
-  currentTurn: PIECE_COLORS.ORANGE,
-  gameOver: false
-}
-
-const jumpCaptureBoardState: GameState = {
-  orangePieces: [
-    { position: { x: 0, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
-    { position: { x: 4, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
-  ],
-  bluePieces: [
-    { position: { x: 1, y: 3 }, isKing: false, color: PIECE_COLORS.BLUE },
-    { position: { x: 6, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE }
-  ],
-  currentTurn: PIECE_COLORS.ORANGE,
-  gameOver: false
-}
-
+// Exported for use in gameplay.data.ts
 export const commonBoardStates = {
-  initial: initialGameState,
-  kingPromotion: kingPromotionBoardState,
-  endgame: endgameBoardState,
-  jumpCapture: jumpCaptureBoardState
+  initial: {
+    orangePieces: [
+      { position: { x: 0, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 2, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 4, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 6, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 1, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 3, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 5, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 7, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 0, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 2, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 4, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 6, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
+    ],
+    bluePieces: [
+      { position: { x: 1, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 3, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 5, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 7, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 0, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 2, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 4, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 6, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 1, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 3, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 5, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 7, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE }
+    ],
+    currentTurn: PIECE_COLORS.ORANGE,
+    gameOver: false
+  } as GameState,
+  kingPromotion: {
+    orangePieces: [
+      { position: { x: 2, y: 6 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 0, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE }
+    ],
+    bluePieces: [
+      { position: { x: 7, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE }
+    ],
+    currentTurn: PIECE_COLORS.ORANGE,
+    gameOver: false
+  } as GameState,
+  endgame: {
+    orangePieces: [
+      { position: { x: 0, y: 0 }, isKing: true, color: PIECE_COLORS.ORANGE },
+      { position: { x: 2, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
+    ],
+    bluePieces: [
+      { position: { x: 7, y: 7 }, isKing: true, color: PIECE_COLORS.BLUE }
+    ],
+    currentTurn: PIECE_COLORS.ORANGE,
+    gameOver: false
+  } as GameState,
+  jumpCapture: {
+    orangePieces: [
+      { position: { x: 0, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE },
+      { position: { x: 4, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
+    ],
+    bluePieces: [
+      { position: { x: 1, y: 3 }, isKing: false, color: PIECE_COLORS.BLUE },
+      { position: { x: 6, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE }
+    ],
+    currentTurn: PIECE_COLORS.ORANGE,
+    gameOver: false
+  } as GameState
 }
 
-export const boardScenarios: {
-  initial: BoardTestScenario & { moves: MoveData[] }
-  kingPromotion: BoardTestScenario
-  endgame: BoardTestScenario
-} = {
+export const boardScenarios: Record<string, BoardTestScenario> = {
   initial: {
     name: 'TC3.3: Initial State',
     description: 'Standard checkers starting position with 12 pieces per side',
@@ -92,8 +81,38 @@ export const boardScenarios: {
       { from: { x: 2, y: 2 }, to: { x: 3, y: 3 } },
       { from: { x: 4, y: 2 }, to: { x: 5, y: 3 } }
     ],
-    expectedOrangePieces: 12,
-    expectedBluePieces: 12,
+    expectedBoardState: {
+      orangePieces: [
+        { position: { x: 0, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 2, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 4, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 6, y: 0 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 1, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 3, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 5, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 7, y: 1 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 1, y: 3 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 3, y: 3 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 5, y: 3 }, isKing: false, color: PIECE_COLORS.ORANGE },
+        { position: { x: 6, y: 2 }, isKing: false, color: PIECE_COLORS.ORANGE }
+      ],
+      bluePieces: [
+        { position: { x: 1, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 3, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 5, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 7, y: 5 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 0, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 2, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 4, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 6, y: 6 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 1, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 3, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 5, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE },
+        { position: { x: 7, y: 7 }, isKing: false, color: PIECE_COLORS.BLUE }
+      ],
+      currentTurn: PIECE_COLORS.BLUE,
+      gameOver: false
+    },
     expectedResult: GAME_STATUS.IN_PROGRESS
   },
   kingPromotion: {
@@ -101,8 +120,7 @@ export const boardScenarios: {
     description: 'Board state configured for testing piece promotion to king',
     boardState: commonBoardStates.kingPromotion,
     moves: [],
-    expectedOrangePieces: 2,
-    expectedBluePieces: 1,
+    expectedBoardState: commonBoardStates.kingPromotion,
     expectedResult: GAME_STATUS.IN_PROGRESS
   },
   endgame: {
@@ -110,8 +128,7 @@ export const boardScenarios: {
     description: 'Endgame scenario with few pieces including kings',
     boardState: commonBoardStates.endgame,
     moves: [],
-    expectedOrangePieces: 2,
-    expectedBluePieces: 1,
+    expectedBoardState: commonBoardStates.endgame,
     expectedResult: GAME_STATUS.IN_PROGRESS
   }
 }
